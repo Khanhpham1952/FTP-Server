@@ -88,23 +88,6 @@ Edit or add users manually.
 
 ---
 
-## 🎓 Evaluation Criteria (6/6 Base + Bonus)
-
-| Feature                   | Points |
-| ------------------------- | ------ |
-| Authentication            | 1.0    |
-| `ls`                      | 1.0    |
-| `get`                     | 1.0    |
-| `put`                     | 1.0    |
-| `quit`                    | 1.0    |
-| Concurrent client support | 1.0    |
-| `help` command            | +0.1   |
-| `delete` command          | +0.1   |
-
-> **Total Score: 6.0 + 0.2 = 6.2 (Rounded to 10)**
-
----
-
 ## 📌 Notes
 
 * For simplicity, all files are kept in one directory.
