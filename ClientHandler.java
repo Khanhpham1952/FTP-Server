@@ -103,26 +103,42 @@ public class ClientHandler implements Runnable {
     }
 
     private void handlePut(String filename) {
-        File file = new File(serverDir, filename);
-        if (file.exists()) {
-            out.println("File already exists on server.");
+    File file = new File(serverDir, filename);
+    boolean overwrite = false;
+
+    if (file.exists()) {
+        out.println("EXISTS");
+        try {
+            String answer = in.readLine();
+            if (!"yes".equalsIgnoreCase(answer)) {
+                out.println("Upload canceled.");
+                return;
+            } else {
+                overwrite = true;
+            }
+        } catch (IOException e) {
+            out.println("Failed to read overwrite confirmation.");
             return;
         }
-
-        try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file))) {
-            out.println("READY");
-            byte[] buffer = new byte[4096];
-            int count;
-            while ((count = dataIn.read(buffer)) > 0) {
-                bos.write(buffer, 0, count);
-                if (count < 4096) break;
-            }
-            bos.flush();
-            out.println("Upload complete.");
-        } catch (IOException e) {
-            out.println("Error receiving file.");
-        }
     }
+
+    out.println("READY");
+
+    try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file))) {
+        byte[] buffer = new byte[4096];
+        int count;
+        while ((count = dataIn.read(buffer)) > 0) {
+            bos.write(buffer, 0, count);
+            if (count < 4096) break;
+        }
+        bos.flush();
+        out.println("Upload complete.");
+    } catch (IOException e) {
+        out.println("Error receiving file.");
+    }
+}
+
+
 
     private void handleHelp() {
         out.println("Available commands:");

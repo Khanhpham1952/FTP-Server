@@ -59,8 +59,8 @@ java FTPClient
 ## 👤 Default Users (in `users.txt`)
 
 ```
-A,123
-B,321
+KhanhPham,password10422103
+NamHai,password10422094
 ```
 
 Edit or add users manually.

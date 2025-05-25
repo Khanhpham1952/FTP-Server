@@ -35,6 +35,7 @@ public class FTPClient {
                 System.out.print("ftp> ");
                 String command = scanner.nextLine();
                 out.println(command);
+                out.flush();
 
                 if (command.equalsIgnoreCase("quit")) {
                     System.out.println(in.readLine());
@@ -72,8 +73,20 @@ public class FTPClient {
                         continue;
                     }
 
-                    String ready = in.readLine();
-                    if (!ready.equals("READY")) {
+                    String responsePut = in.readLine();
+
+                    if (responsePut.equals("EXISTS")) {
+                        System.out.print("File already exists. Overwrite? (yes/no): ");
+                        String answer = scanner.nextLine();
+                        out.println(answer);
+                        if (!answer.equalsIgnoreCase("yes")) {
+                            System.out.println(in.readLine()); // Upload canceled.
+                            continue;
+                        }
+                        responsePut = in.readLine(); // Server sends READY after 'yes'
+                    }
+
+                    if (!responsePut.equals("READY")) {
                         System.out.println("Server not ready to receive.");
                         continue;
                     }
@@ -89,6 +102,7 @@ public class FTPClient {
                     } catch (IOException e) {
                         System.out.println("Upload failed: " + e.getMessage());
                     }
+
                 } else if (command.equalsIgnoreCase("help")) {
                     String line;
                     while (!(line = in.readLine()).equals("END_HELP")) {

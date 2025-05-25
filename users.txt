@@ -1,3 +1,2 @@
-KhanhPham,KhanhPham10422103
-NamHai,password10422094
 A,123
+B,321
